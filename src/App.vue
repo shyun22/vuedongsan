@@ -1,15 +1,27 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div class="menu">
+      <a v-for="a in menu" :key="a">{{ a }}</a>
+    </div>
+    <div v-for="(a, i) in oneroom" :key="a">
+      <img :src="oneroom[i].image" calss="room-img">
+      <h4 @click="modal_open = true">{{ oneroom[i].title }}</h4>
+      <p>{{ oneroom[i].price }}원</p>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import roomdata from "./assets/oneroom.js"
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      oneroom: roomdata,
+      modal_open: false,
+      menu: ['HOME', 'Shop', 'About']
+    }
   }
 }
 </script>
@@ -21,6 +33,29 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+body {
+  margin: 0;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+.room-img {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.menu {
+  background: darkslateblue;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.menu a {
+  color: white;
+  padding: 10px;
 }
 </style>
