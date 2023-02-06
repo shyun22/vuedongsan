@@ -4,7 +4,7 @@
       <a v-for="a in menu" :key="a">{{ a }}</a>
     </div>
 
-    <DiscountBanner />
+    <DiscountBanner :discount="discount" v-if="showDiscount == true" />
     <button @click="priceSort">가격순정렬</button>
     <button @click="sortBack">되돌리기</button>
 
@@ -27,6 +27,8 @@ import ModalOpen from "./ModalOpen.vue"
 import CardRoom from "./CardRoom.vue"
 
 
+
+
 export default {
   name: 'App',
   data() {
@@ -36,6 +38,8 @@ export default {
       modal_open: false,
       menu: ['HOME', 'Shop', 'About'],
       oneroomOriginal: [...roomdata],
+      showDiscount: true,
+      discount: 20,
     }
   },
 
@@ -49,12 +53,20 @@ export default {
       this.oneroom = [...this.oneroomOriginal];
     },
   },
-    components: {
-      DiscountBanner,
-      ModalOpen,
-      CardRoom,
-    }
+  mounted() {
+    setInterval(() => {
+      this.discount -= 1;
+    }, 1000);
+  },
+
+
+
+  components: {
+    DiscountBanner,
+    ModalOpen,
+    CardRoom,
   }
+}
 </script>
 
 <style>
@@ -67,7 +79,7 @@ export default {
 }
 
 body {
-  margin: 0;
+  margin: 0px;
 }
 
 div {
@@ -79,14 +91,14 @@ div {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
-  padding: 20px;
+  padding: 10px;
 }
 
 .white-bg {
   width: 100%;
   background: white;
   border-radius: 8px;
-  padding: 20px;
+  padding: 10px;
 }
 
 .room-img {

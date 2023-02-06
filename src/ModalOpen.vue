@@ -33,7 +33,15 @@ export default {
         oneroom: Array,
         click_room: Number,
         modal_open: Boolean,
-    }
+    },
+
+    beforeUpdate() {
+        if (this.month == 2) {
+            alert("2개월은 안팔아요")
+        }
+    },
+
+
 
 }
 </script>
