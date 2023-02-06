@@ -4,26 +4,19 @@
       <a v-for="a in menu" :key="a">{{ a }}</a>
     </div>
 
-    <DiscountBanner/>
+    <DiscountBanner />
+    <button @click="priceSort">가격순정렬</button>
+    <button @click="sortBack">되돌리기</button>
 
-    <ModalOpen  @closeModal="modal_open=false" :oneroom="oneroom" :click_room="click_room" :modal_open="modal_open" />
 
-    <!-- <div class="black-bg" v-if="modal_open == true">
-      <div class="white-bg">
-        <img :src="oneroom[click_room].image" style="width=100%">
-        <h4>{{ oneroom[click_room].title }}</h4>
-        <p>{{ oneroom[click_room].content }}</p>
-        <p>{{ oneroom[click_room].price }}원</p>
-        <button @click="modal_open = false">닫기</button>
-      </div>
-    </div> -->
+    <Transition name="fade">
+      <ModalOpen @closeModal="modal_open = false" :oneroom="oneroom" :click_room="click_room"
+        :modal_open="modal_open" />
+    </Transition>
 
-    <CardRoom @openModal="modal_open=true; click_room=$event" :oneroom="oneroom[i]" v-for="(a, i) in oneroom" :key="a" />
-    <!-- <div v-for="(a, i) in oneroom" :key="a">
-      <img :src="a.image" calss="room-img">
-      <h4 @click="modal_open = true; click_room = i">{{ a.title }}</h4>
-      <p>{{ a.price }}원</p>
-    </div> -->
+    <CardRoom @openModal="modal_open=true; click_room=$event" :oneroom="oneroom[i]" v-for="(a, i) in oneroom"
+      :key="a" />
+
   </div>
 </template>
 
@@ -41,16 +34,27 @@ export default {
       click_room: 0,
       oneroom: roomdata,
       modal_open: false,
-      menu: ['HOME', 'Shop', 'About']
+      menu: ['HOME', 'Shop', 'About'],
+      oneroomOriginal: [...roomdata],
     }
   },
-  components: {
-    DiscountBanner,
-    ModalOpen,
-    CardRoom,
 
+  methods: {
+    priceSort() {
+      this.oneroom.sort(function (a, b) {
+        return a.price - b.price
+      })
+    },
+    sortBack() {
+      this.oneroom = [...this.oneroomOriginal];
+    },
+  },
+    components: {
+      DiscountBanner,
+      ModalOpen,
+      CardRoom,
+    }
   }
-}
 </script>
 
 <style>
@@ -106,5 +110,30 @@ div {
   padding: 10px;
   margin: 10px;
   border-radius: 5px;
+}
+
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: all 1s;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-active {
+  transition: all 1s;
+}
+
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
